@@ -15,7 +15,7 @@ function homeScreen() {
     text("Flavoball", width / 2, height / 2.5);
     textAlign(LEFT)
     textSize(width / 50)
-    text("Version 1.0", 0, height - 0.5)
+    text("Version 3.1", 0, height - 0.5)
     textAlign(CENTER)
     textSize(width / 20)
     if (eHigh > 0) {
@@ -274,6 +274,7 @@ function setup() {
   if (resGame === null) {
     resGame = "0";
   }
+  restart = createButton('Reset');
   play = createButton('New game');
   easy = createButton('Easy');
   easy.hide();
@@ -331,13 +332,14 @@ function play_Button() {
 }
 
 function home_Button() {
-  MODE = 0
+  MODE = 0;
+  restart.hide();
   saveButton.hide();
   easy.hide();
   normal.hide();
   hard.hide();
   extreme.hide();
-  level = -1
+  level = -1;
   if (home == 0) {
     home = 1;
     if (deathCount > -1) {
@@ -379,6 +381,7 @@ function endless_Button() {
 }
 
 function easy_Button() {
+  restart.hide();
   easy.hide();
   normal.hide();
   hard.hide();
@@ -388,6 +391,7 @@ function easy_Button() {
 }
 
 function normal_Button() {
+  restart.hide();
   easy.hide();
   normal.hide();
   hard.hide();
@@ -397,6 +401,7 @@ function normal_Button() {
 }
 
 function hard_Button() {
+  restart.hide();
   easy.hide();
   normal.hide();
   hard.hide();
@@ -406,6 +411,7 @@ function hard_Button() {
 }
 
 function extreme_Button() {
+  restart.hide();
   easy.hide();
   normal.hide();
   hard.hide();
@@ -414,16 +420,30 @@ function extreme_Button() {
   MODE = 1;
 }
 
+function restart_Button() {
+  restart.hide();
+  deathCount = -1;
+  eHigh = 0;
+  winner = 0;
+  storeItem("deathCount", deathCount);
+  storeItem("eHigh", eHigh);
+  storeItem("winner", winner);
+  home_Button();
+}
+
 function buttons() {
   if (MODE == -5) {
+    restart.show();
     easy.show();
     normal.show();
     hard.show();
     extreme.show();
+    restart.position(width / 2, 0)
     easy.position(width / 5, height / 2);
     normal.position(width / 3, height / 2);
     hard.position(width / 2, height / 2);
     extreme.position(width / 1.5, height / 2);
+    restart.mousePressed(restart_Button);
     easy.mousePressed(easy_Button);
     normal.mousePressed(normal_Button);
     hard.mousePressed(hard_Button);
