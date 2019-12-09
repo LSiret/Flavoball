@@ -20,16 +20,20 @@ function homeScreen() {
     textSize(width / 20)
     if (eHigh > 0) {
       textSize(20)
-      text("Highscore: " + eHigh, width / 1.5, height / 1.6)
+      text("Highscore: " + eHigh, width / 1.5, height / 1.5)
       if (deathCount == 1) {
-        text("Highscore: " + deathCount + " death", width / 3, height / 1.6)
+        textSize(20)
+        text("Highscore: " + deathCount + " death", width / 3, height / 1.5)
       } else {
-        text("Highscore: " + deathCount + " deaths", width / 3, height / 1.6)
+        textSize(20)
+        text("Highscore: " + deathCount + " deaths", width / 3, height / 1.5)
       }
     } else if (deathCount == 1) {
-      text("Highscore: " + deathCount + " death", width / 2, height / 1.6)
+      textSize(20)
+      text("Highscore: " + deathCount + " death", width / 2, height / 1.5)
     } else if (deathCount > 0) {
-      text("Highscore: " + deathCount + " deaths", width / 3, height / 1.6)
+      textSize(20)
+      text("Highscore: " + deathCount + " deaths", width / 3, height / 1.5)
     }
   } else {
     home = 0;
@@ -47,12 +51,16 @@ function Game() {
 function win() {
   if (deathCount != 0) {
     if (deathCount < 10) {
-      winner = 1;
+      winner = 2;
     }
   }
   if (level >= 13) {
-    winner = 1
+    winner = 1;
+    resGame = 0;
     if (life < int(deathCount)) {
+      deathCount = life;
+      storeItem("deathCount", deathCount)
+    } else if (deathCount == 0) {
       deathCount = life;
       storeItem("deathCount", deathCount)
     }
@@ -82,7 +90,12 @@ class homePlay {
     this.y = height / 1.1
   }
   update() {
-    fill(255, 255, 255)
+    if (winner == 2) {
+      fill(255,255,50)
+    }
+    else {
+      fill(255, 255, 255)
+    }
     ellipse(this.x, this.y, 20, 20);
     if (keyCode === UP_ARROW && keyIsPressed) {
       this.y = this.y - 2
@@ -128,7 +141,7 @@ class Enemy {
         if (level < 10) {
           this.v += 0.2;
         } else {
-          this.v += 0.3;
+          this.v += 0.25;
         }
       } else if (this.x > width - 5) {
         this.v = 0;
@@ -150,30 +163,17 @@ class Flavoball {
     this.x = width / 2;
     this.y = height / 1.2;
     this.Dead = 0;
+    this.shield = 0;
   }
   update() {
     //Drawing the character
     stroke(150);
-    if (winner == 1) {
+    if (winner == 2) {
       fill(255, 255, 0)
     } else if (MODE == 1) {
-      if (level == 0) {
-        fill(random(0, 250), random(0, 250), random(0, 250));
-      } else if (level == 1) {
-        fill(random(10, 140), random(100, 240), random(100, 240))
-      } else if (level == 2) {
-        fill(random(20, 130), random(125, 230), random(125, 230))
-      } else if (level == 3) {
-        fill(random(30, 120), random(150, 220), random(150, 220))
-      } else if (level == 4) {
-        fill(random(40, 100), random(175, 215), random(175, 215))
-      } else if (level == 5) {
-        fill(random(30, 120), random(190, 205), random(190, 205))
-      } else if (level >= 6) {
         fill(50, 200, 200)
-      }
-    } else if (MODE == 2) {
-      fill(50, 200, 200)
+      } else if (MODE == 2) {
+      fill(50, 250, 250)
     }
 
     ellipse(this.x, this.y, 25, 25);
@@ -191,6 +191,12 @@ class Flavoball {
         this.x += random(-5, 5)
       } else if (level == 5) {
         this.x += random(-5, 5)
+      }
+    }
+    this.shield -= 0.5
+    if (winner == 1) {
+      if (key === ' ' && keyIsPressed) {
+        this.shield = 100;
       }
     }
 
@@ -238,6 +244,9 @@ class Flavoball {
         this.x = this.x + 2
       }
     }
+    if (this.shield >= 1) {
+      fill(0, 255, 0)
+    }
   }
 }
 
@@ -259,6 +268,8 @@ function setup() {
   }
   play = createButton('Play');
   homeButton = createButton('Home');
+  saveButton = createButton('Save');
+  saveButton.hide();
   resumeButton = createButton('Resume');
   resumeButton.hide();
   textAlign(CENTER);
@@ -305,9 +316,7 @@ function play_Button() {
 
 function home_Button() {
   MODE = 0
-  if (level > 0) {
-    inGame = level
-  }
+  saveButton.hide();
   level = -1
   if (home == 0) {
     home = 1;
@@ -318,8 +327,14 @@ function home_Button() {
   }
 }
 
+function save_Button() {
+  inGame = level;
+  resGame = 1;
+}
+
 function resume_Button() {
-  MODE = 1
+  MODE = 1;
+  Ball.y = height;
   resumeButton.hide();
   home = 0;
   level = inGame;
@@ -355,7 +370,11 @@ function eScore() {
 function reset() {
   life += 1;
   if (MODE == 1) {
-    if (level >= 5) {
+    if (level >= 11) {
+      level = 11;
+    } else if (level >= 8) {
+      level = 8;
+    } else if (level >= 5) {
       level = 5;
     } else {
       level = 0;
@@ -374,6 +393,7 @@ function reset() {
 
 function Death() {
   if (level > 1) {
+    if (Ball.shield < 1) {
     for (let i = 1; i < 10; i++) {
       var d = dist(Ball.x, Ball.y, evul[i].x, evul[i].y);
       if (d < 25) {
@@ -383,6 +403,10 @@ function Death() {
           background(255);
           reset();
           Ball.Dead = 0;
+          if(level > 2) {
+            Ball.y = height;
+          }
+          }
         }
       }
     }
@@ -398,7 +422,16 @@ function Voice() {
       textSize(10)
       fill(255, 255, 50)
       text("CHECKPOINT", width / 2, 10)
+    } else if (level == 7) {
+      textSize(10)
+      fill(255, 255, 50)
+      text("CHECKPOINT", width / 2, 10)
+    } else if (level == 10) {
+      textSize(10)
+      fill(255, 255, 50)
+      text("CHECKPOINT", width / 2, 10)
     }
+    fill(0)
     textSize(width / 50)
     if (level < 1) {
       fill(random(0, 25))
@@ -516,7 +549,7 @@ function Voice() {
     }
     if (level == 7) {
       textAlign(CENTER)
-      if (level != 1) {
+      if (winner != 1) {
         text("TRYHARD.exe ... initiated.", width / 2, height / 2)
       } else {
         text("I'LL HAVE TO JUST INFECT YOU AGAIN!", width / 2, height / 2)
@@ -572,7 +605,7 @@ function Voice() {
 
 function BG() {
   if (home == 1) {
-    if (winner == 1) {
+    if (winner == 2) {
       background(255, 255, 0)
     } else {
       background(0, 50, 255)
@@ -612,7 +645,18 @@ function Espawn() {
           evul[7].update();
           evul[8].update();
         }
-        if (level > 6) {
+        if (level == 7) {
+          evul[9].update();
+          evul[10].update();
+          evul[11].update();
+          evul[12].update();
+          evul[13].update();
+          evul[14].update();
+          evul[15].update();
+          evul[16].update();
+
+        }
+        if (level == 10) {
           evul[9].update();
           evul[10].update();
           evul[11].update();
@@ -625,19 +669,7 @@ function Espawn() {
           evul[18].update();
           evul[19].update();
           evul[20].update();
-        }
-        if (level == 10) {
-          evul[20].update();
           evul[21].update();
-          evul[22].update();
-          evul[23].update();
-          evul[24].update();
-          evul[25].update();
-          evul[26].update();
-          evul[27].update();
-          evul[28].update();
-          evul[29].update();
-          evul[30].update();
         }
       } else if (level == 11) {
         evul[1].update();
@@ -722,6 +754,9 @@ function Espawn() {
 
 function buttons() {
   if (MODE == 1) {
+    saveButton.show();
+    saveButton.position(width - 47, 0);
+    saveButton.mousePressed(save_Button)
     if (level >= 1) {
       resGame = 1;
     }
@@ -757,11 +792,12 @@ function draw() {
   if (cheat != 1) {
     BG();
     win();
+    homeScreen();
+    buttons();
+
     storeItem("resGame", resGame)
     storeItem("inGame", inGame)
     storeItem("life", life)
-    homeScreen();
-    buttons();
     let hrs = hour();
     let min = minute();
     let sec = second();
