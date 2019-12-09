@@ -31,7 +31,7 @@ function homeScreen() {
     } else if (deathCount == 1) {
       textSize(20)
       text("Highscore: " + deathCount + " death", width / 2, height / 1.5)
-    } else if (deathCount > 0) {
+    } else if (deathCount > -1) {
       textSize(20)
       text("Highscore: " + deathCount + " deaths", width / 3, height / 1.5)
     }
@@ -49,13 +49,13 @@ function Game() {
 }
 
 function win() {
-  if (deathCount != -1) {
-    if (deathCount < 10) {
-      winner = 2;
-    }
-  }
   if (level >= 13) {
+    if (dif == 4) {
+      winner = 2;
+    } else {
     winner = 1;
+    }
+    storeItem("winner", winner)
     resGame = 0;
     if (life < int(deathCount)) {
       deathCount = life;
@@ -254,7 +254,15 @@ var evul = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  life = getItem("life")
+  winner = getItem("winner")
+  if (winner == null) {
+    winner = 0;
+  }
+  dif = getItem("dif");
+  if (dif === null) {
+    dif = "0"
+  }
+  life = getItem("life");
   if (life === null) {
     life = "0"
   }
@@ -266,7 +274,15 @@ function setup() {
   if (resGame === null) {
     resGame = "0";
   }
-  play = createButton('Play');
+  play = createButton('New game');
+  easy = createButton('Easy');
+  easy.hide();
+  normal = createButton('Normal');
+  normal.hide();
+  hard = createButton('Hard');
+  hard.hide();
+  extreme = createButton('Extreme');
+  extreme.hide();
   homeButton = createButton('Home');
   saveButton = createButton('Save');
   saveButton.hide();
@@ -287,7 +303,7 @@ function setup() {
   }
   Ball = new Flavoball();
   homeBall = new homePlay();
-  for (let i = 1; i < 31; i++) {
+  for (let i = 1; i < 101; i++) {
     evul[i] = new Enemy();
   }
   stage = 2;
@@ -296,7 +312,7 @@ function setup() {
 }
 
 function play_Button() {
-  MODE = 1;
+  MODE = -5;
   life = 0;
   resGame = 0;
   level = 0;
@@ -317,13 +333,17 @@ function play_Button() {
 function home_Button() {
   MODE = 0
   saveButton.hide();
+  easy.hide();
+  normal.hide();
+  hard.hide();
+  extreme.hide();
   level = -1
   if (home == 0) {
     home = 1;
     if (deathCount > -1) {
       endless = createButton('Endless')
     }
-    play = createButton('Play');
+    play = createButton('New game');
   }
 }
 
@@ -356,6 +376,90 @@ function endless_Button() {
   }
   level = 0;
   Ball.Dead = 0;
+}
+
+function easy_Button() {
+  easy.hide();
+  normal.hide();
+  hard.hide();
+  extreme.hide();
+  dif = 1;
+  MODE = 1;
+}
+
+function normal_Button() {
+  easy.hide();
+  normal.hide();
+  hard.hide();
+  extreme.hide();
+  dif = 2;
+  MODE = 1;
+}
+
+function hard_Button() {
+  easy.hide();
+  normal.hide();
+  hard.hide();
+  extreme.hide();
+  dif = 3
+  MODE = 1;
+}
+
+function extreme_Button() {
+  easy.hide();
+  normal.hide();
+  hard.hide();
+  extreme.hide();
+  dif = 4
+  MODE = 1;
+}
+
+function buttons() {
+  if (MODE == -5) {
+    easy.show();
+    normal.show();
+    hard.show();
+    extreme.show();
+    easy.position(width / 5, height / 2);
+    normal.position(width / 3, height / 2);
+    hard.position(width / 2, height / 2);
+    extreme.position(width / 1.5, height / 2);
+    easy.mousePressed(easy_Button);
+    normal.mousePressed(normal_Button);
+    hard.mousePressed(hard_Button);
+    extreme.mousePressed(extreme_Button);
+  }
+  if (MODE == 1) {
+    saveButton.show();
+    saveButton.position(width - 47, 0);
+    saveButton.mousePressed(save_Button)
+    if (level >= 1) {
+      resGame = 1;
+    }
+  }
+  if (home == 1) {
+    if (resGame == 1) {
+      resumeButton.show();
+      resumeButton.mousePressed(resume_Button);
+      if (deathCount > -1) {
+        resumeButton.position(width / 3, height / 2 + 23);
+      } else {
+        resumeButton.position(width / 2, height / 2 + 23);
+      }
+    }
+    if (deathCount > -1) {
+      play.position(width / 3 - 6, height / 2);
+    } else {
+      play.position(width / 2 - 6, height / 2);
+    }
+    play.mousePressed(play_Button);
+    homeButton.position(0, 0);
+    homeButton.mousePressed(home_Button);
+    if (deathCount > -1) {
+      endless.position(width / 1.5, height / 2);
+      endless.mousePressed(endless_Button);
+    }
+  }
 }
 
 function eScore() {
@@ -393,8 +497,7 @@ function reset() {
 
 function Death() {
   if (level > 1) {
-    if (Ball.shield < 1) {
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 101; i++) {
       var d = dist(Ball.x, Ball.y, evul[i].x, evul[i].y);
       if (d < 25) {
         if (level == 2) {
@@ -406,7 +509,6 @@ function Death() {
           if(level > 2) {
             Ball.y = height;
           }
-          }
         }
       }
     }
@@ -417,7 +519,14 @@ function Voice() {
   if (Ball.y <= height / 2) {
     stage = 0
   }
-  if (MODE == 1) {
+  if (MODE == -5) {
+    textSize(30)
+    textAlign(CENTER)
+    fill(50, 250, 0)
+    text("SELECT YOUR DIFFICULTY", width / 2, height / 3)
+    textSize(15)
+    text("(Highscore carries across difficulties)", width / 2, height / 2.5)
+  } else if (MODE == 1) {
     if (level == 4) {
       textSize(10)
       fill(255, 255, 50)
@@ -585,7 +694,7 @@ function Voice() {
         text(life + " of them...", width / 2, height / 2)
       }
     }
-  } else {
+  } else if (MODE == 2) {
     textSize(width / 20)
     fill(50)
     if (level == 0) {
@@ -622,6 +731,8 @@ function BG() {
     }
   } else if (MODE == 2) {
     background(255, 0, 0)
+  } else {
+    background(0, 0, 255)
   }
 }
 
@@ -629,6 +740,35 @@ function Espawn() {
   if (MODE == 1) {
     if (level < 13) {
       if (level < 11) {
+        if (dif == 1) {
+          if (level >= 2) {
+          evul[1].update();
+        }
+        if (level >= 3) {
+          evul[2].update();
+          evul[3].update();
+        }
+        if (level >= 4) {
+          evul[4].update();
+        }
+        if (level >= 5) {
+          evul[5].update();
+        }
+        if (level == 7) {
+          evul[6].update();
+          evul[7].update();
+          evul[8].update();
+        }
+        if (level == 10) {
+          evul[9].update();
+          evul[10].update();
+          evul[11].update();
+          evul[12].update();
+          evul[13].update();
+          evul[14].update();
+        }
+        } 
+        else if (dif == 2) {
         if (level >= 2) {
           evul[1].update();
         }
@@ -670,6 +810,120 @@ function Espawn() {
           evul[19].update();
           evul[20].update();
           evul[21].update();
+        }
+        }
+        else if (dif == 3) {
+          if (level >= 2) {
+          evul[1].update();
+          evul[2].update();
+        }
+        if (level >= 3) {
+          evul[3].update();
+          evul[4].update();
+          evul[5].update();
+          evul[6].update();
+        }
+        if (level >= 4) {
+          evul[7].update();
+          evul[8].update();
+          evul[9].update();
+        }
+        if (level >= 5) {
+          evul[10].update();
+          evul[11].update();
+          evul[12].update();
+        }
+        if (level == 7) {
+          evul[13].update();
+          evul[14].update();
+          evul[15].update();
+          evul[16].update();
+          evul[17].update();
+          evul[18].update();
+          evul[19].update();
+          evul[20].update();
+          evul[21].update();
+
+        }
+        if (level == 10) {
+          evul[22].update();
+          evul[23].update();
+          evul[24].update();
+          evul[25].update();
+          evul[26].update();
+          evul[27].update();
+          evul[28].update();
+          evul[29].update();
+          evul[30].update();
+          evul[31].update();
+          evul[32].update();
+          evul[33].update();
+          evul[34].update();
+          evul[35].update();
+          evul[36].update();
+        }
+        } 
+        else if (dif == 4) {
+        if (level >= 2) {
+          evul[1].update();
+        }
+        if (level >= 3) {
+          evul[2].update();
+          evul[3].update();
+          evul[4].update();
+          evul[5].update();
+          evul[6].update();
+          evul[7].update();
+        }
+        if (level >= 4) {
+          evul[8].update();
+          evul[9].update();
+          evul[10].update();
+          evul[11].update();
+          evul[12].update();
+        }
+        if (level >= 5) {
+          evul[13].update();
+          evul[14].update();
+          evul[15].update();
+        }
+        if (level == 7) {
+          evul[16].update();
+          evul[17].update();
+          evul[18].update();
+          evul[19].update();
+          evul[20].update();
+          evul[21].update();
+          evul[22].update();
+          evul[23].update();
+          evul[24].update();
+          evul[25].update();
+          evul[26].update();
+          evul[27].update();
+          evul[28].update();
+
+        }
+        if (level == 10) {
+          evul[29].update();
+          evul[30].update();
+          evul[31].update();
+          evul[32].update();
+          evul[33].update();
+          evul[34].update();
+          evul[35].update();
+          evul[36].update();
+          evul[37].update();
+          evul[38].update();
+          evul[39].update();
+          evul[40].update();
+          evul[41].update();
+          evul[42].update();
+          evul[43].update();
+          evul[44].update();
+          evul[45].update();
+          evul[46].update();
+          evul[47].update();
+        }
         }
       } else if (level == 11) {
         evul[1].update();
@@ -752,40 +1006,6 @@ function Espawn() {
   }
 }
 
-function buttons() {
-  if (MODE == 1) {
-    saveButton.show();
-    saveButton.position(width - 47, 0);
-    saveButton.mousePressed(save_Button)
-    if (level >= 1) {
-      resGame = 1;
-    }
-  }
-  if (home == 1) {
-    if (resGame == 1) {
-      resumeButton.show();
-      resumeButton.mousePressed(resume_Button);
-      if (deathCount > 0) {
-        resumeButton.position(width / 3, height / 2 + 23);
-      } else {
-        resumeButton.position(width / 2, height / 2 + 23);
-      }
-    }
-    if (deathCount > 0) {
-      play.position(width / 3, height / 2);
-    } else {
-      play.position(width / 2, height / 2);
-    }
-    play.mousePressed(play_Button);
-    homeButton.position(0, 0);
-    homeButton.mousePressed(home_Button);
-    if (deathCount > 0) {
-      endless.position(width / 1.5, height / 2);
-      endless.mousePressed(endless_Button);
-    }
-  }
-}
-
 function draw() {
   frameRate(120);
   Game();
@@ -794,7 +1014,7 @@ function draw() {
     win();
     homeScreen();
     buttons();
-
+    storeItem("dif", dif)
     storeItem("resGame", resGame)
     storeItem("inGame", inGame)
     storeItem("life", life)
