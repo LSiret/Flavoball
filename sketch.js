@@ -49,7 +49,7 @@ function Game() {
 }
 
 function win() {
-  if (deathCount != 0) {
+  if (deathCount != -1) {
     if (deathCount < 10) {
       winner = 2;
     }
@@ -57,14 +57,12 @@ function win() {
   if (level >= 13) {
     winner = 1;
     resGame = 0;
-    if (deathCount != -1) {
     if (life < int(deathCount)) {
       deathCount = life;
       storeItem("deathCount", deathCount)
-    } else if (deathCount == 0) {
+    } else if (deathCount == -1) {
       deathCount = life;
       storeItem("deathCount", deathCount)
-    }
     }
     background(0, 255, 0);
     textSize(50);
@@ -284,7 +282,7 @@ function setup() {
     deathCount = "-1";
   }
   endless = createButton('Endless');
-  if (deathCount == 0) {
+  if (deathCount == -1) {
     endless.remove();
   }
   Ball = new Flavoball();
@@ -304,7 +302,7 @@ function play_Button() {
   level = 0;
   play.remove();
   resumeButton.hide();
-  if (deathCount > 0) {
+  if (deathCount > -1) {
     endless.remove();
   }
   createCanvas(windowWidth, windowHeight);
@@ -322,7 +320,7 @@ function home_Button() {
   level = -1
   if (home == 0) {
     home = 1;
-    if (deathCount > 0) {
+    if (deathCount > -1) {
       endless = createButton('Endless')
     }
     play = createButton('Play');
@@ -342,7 +340,7 @@ function resume_Button() {
   level = inGame;
   resGame = 1;
   play.remove();
-  if (deathCount > 0) {
+  if (deathCount > -1) {
     endless.remove();
   }
 }
