@@ -57,12 +57,14 @@ function win() {
   if (level >= 13) {
     winner = 1;
     resGame = 0;
+    if (deathCount != -1) {
     if (life < int(deathCount)) {
       deathCount = life;
       storeItem("deathCount", deathCount)
     } else if (deathCount == 0) {
       deathCount = life;
       storeItem("deathCount", deathCount)
+    }
     }
     background(0, 255, 0);
     textSize(50);
@@ -279,7 +281,7 @@ function setup() {
   }
   deathCount = getItem("deathCount");
   if (deathCount === null) {
-    deathCount = "0";
+    deathCount = "-1";
   }
   endless = createButton('Endless');
   if (deathCount == 0) {
