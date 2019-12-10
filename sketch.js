@@ -4,7 +4,7 @@ let stage = 2;
 let home = 1;
 let winner = 0;
 let deathCount;
-let MODE;
+let MODE; 
 
 function homeScreen() {
   if (level == -1) {
