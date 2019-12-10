@@ -13,10 +13,11 @@ function homeScreen() {
     textSize(width / 4);
     fill(0)
     text("Flavoball", width / 2, height / 2.5);
-    textAlign(LEFT)
+    textAlign(CENTER)
     textSize(width / 50)
-    text("Controls:", width / 2, height - 10)
+    text("Controls:", width / 2, height - 30)
     text("Arrow keys to move", width / 2, height)
+    textAlign(LEFT)
     text("Version 3.1", 0, height - 0.5)
     textAlign(CENTER)
     textSize(width / 20)
