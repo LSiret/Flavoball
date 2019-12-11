@@ -102,13 +102,13 @@ class homePlay {
       fill(255, 255, 255)
     }
     ellipse(this.x, this.y, 20, 20);
-    if (keyCode === UP_ARROW && keyIsPressed) {
+    if (keyIsDown(UP_ARROW)) {
       this.y = this.y - 2
-    } else if (keyCode === DOWN_ARROW && keyIsPressed) {
+    } else if (keyIsDown(DOWN_ARROW)) {
       this.y = this.y + 2
-    } else if (keyCode === LEFT_ARROW && keyIsPressed) {
+    } else if (keyIsDown(LEFT_ARROW)) {
       this.x = this.x - 2
-    } else if (keyCode === RIGHT_ARROW && keyIsPressed) {
+    } else if (keyIsDown(RIGHT_ARROW)) {
       this.x = this.x + 2
     }
   }
@@ -198,12 +198,6 @@ class Flavoball {
         this.x += random(-5, 5)
       }
     }
-    this.shield -= 0.5
-    if (winner == 1) {
-      if (key === ' ' && keyIsPressed) {
-        this.shield = 100;
-      }
-    }
 
     //resetting off bottom/top of the screen
     if (this.y < 0) {
@@ -230,27 +224,24 @@ class Flavoball {
     } else if (this.x > width) {
       this.x = 0
     }
-    if (keyCode === UP_ARROW && keyIsPressed) {
+    if (keyIsDown(UP_ARROW)) {
       this.y = this.y - 2
-    } else if (keyCode === DOWN_ARROW && keyIsPressed) {
+    } else if (keyIsDown(DOWN_ARROW)) {
       this.y = this.y + 2
     } else if (MODE == 1) {
       if (level >= 6) {
-        if (keyCode === LEFT_ARROW && keyIsPressed) {
+        if (keyIsDown(LEFT_ARROW)) {
           this.x = this.x - 2
-        } else if (keyCode === RIGHT_ARROW && keyIsPressed) {
+        } else if (keyIsDown(RIGHT_ARROW)) {
           this.x = this.x + 2
         }
       }
     } else if (MODE == 2) {
-      if (keyCode === LEFT_ARROW && keyIsPressed) {
+      if (keyIsDown(LEFT_ARROW)) {
         this.x = this.x - 2
-      } else if (keyCode === RIGHT_ARROW && keyIsPressed) {
+      } else if (keyIsDown(RIGHT_ARROW)) {
         this.x = this.x + 2
       }
-    }
-    if (this.shield >= 1) {
-      fill(0, 255, 0)
     }
   }
 }
