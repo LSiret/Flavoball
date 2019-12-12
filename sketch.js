@@ -377,6 +377,7 @@ function endless_Button() {
 }
 
 function easy_Button() {
+  level = 0;
   restart.hide();
   easy.hide();
   normal.hide();
@@ -387,6 +388,7 @@ function easy_Button() {
 }
 
 function normal_Button() {
+  level = 0;
   restart.hide();
   easy.hide();
   normal.hide();
@@ -397,6 +399,7 @@ function normal_Button() {
 }
 
 function hard_Button() {
+  level = 0;
   restart.hide();
   easy.hide();
   normal.hide();
@@ -407,6 +410,7 @@ function hard_Button() {
 }
 
 function extreme_Button() {
+  level = 0;
   restart.hide();
   easy.hide();
   normal.hide();
