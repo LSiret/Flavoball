@@ -17,7 +17,7 @@ function homeScreen() {
     textSize(width / 50)
     text("Controls:", width / 2, height - 30)
     text("Arrow keys to move", width / 2, height)
-    text("Instuctions:", width / 2, height / 1.5 - 15)
+    text("Instuctions:", width / 2, height / 1.5 - 20)
     text("- Go up to proceed", width / 2, height / 1.5)
     textAlign(LEFT)
     text("Version 3.1", 0, height - 0.5)
