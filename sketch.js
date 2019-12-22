@@ -243,6 +243,25 @@ class Flavoball {
         this.x = this.x + 2
       }
     }
+        if (keyIsDown(87)) {
+      this.y = this.y - 2
+    } else if (keyIsDown(83)) {
+      this.y = this.y + 2
+    } else if (MODE == 1) {
+      if (level >= 6) {
+        if (keyIsDown(65)) {
+          this.x = this.x - 2
+        } else if (keyIsDown(68)) {
+          this.x = this.x + 2
+        }
+      }
+    } else if (MODE == 2) {
+      if (keyIsDown(65)) {
+        this.x = this.x - 2
+      } else if (keyIsDown(68)) {
+        this.x = this.x + 2
+      }
+    }
   }
 }
 
