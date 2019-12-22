@@ -20,7 +20,7 @@ function homeScreen() {
     text("Instuctions:", width / 2, height / 1.5 - 20)
     text("- Go up to proceed", width / 2, height / 1.5)
     textAlign(LEFT)
-    text("Version 3.1", 0, height - 0.5)
+    text("Version 1.3.2", 0, height - 0.5)
     textAlign(CENTER)
     textSize(width / 20)
     if (eHigh > 0) {
@@ -104,11 +104,22 @@ class homePlay {
     ellipse(this.x, this.y, 20, 20);
     if (keyIsDown(UP_ARROW)) {
       this.y = this.y - 2
-    } else if (keyIsDown(DOWN_ARROW)) {
+    } else if (keyIsDown(87)) {
+      this.y = this.y - 2
+    } 
+    if (keyIsDown(DOWN_ARROW)) {
       this.y = this.y + 2
-    } else if (keyIsDown(LEFT_ARROW)) {
+    } else if (keyIsDown(83)) {
+      this.y = this.y + 2
+    } 
+    if (keyIsDown(LEFT_ARROW)) {
       this.x = this.x - 2
-    } else if (keyIsDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(65)) {
+      this.x = this.x - 2
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.x = this.x + 2
+    } else if (keyIsDown(68)) {
       this.x = this.x + 2
     }
   }
@@ -298,6 +309,7 @@ function setup() {
     resGame = "0";
   }
   restart = createButton('Reset');
+  restart.hide();
   play = createButton('New game');
   easy = createButton('Easy');
   easy.hide();
