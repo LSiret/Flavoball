@@ -226,39 +226,47 @@ class Flavoball {
     }
     if (keyIsDown(UP_ARROW)) {
       this.y = this.y - 2
-    } else if (keyIsDown(DOWN_ARROW)) {
+    } 
+    if (keyIsDown(DOWN_ARROW)) {
       this.y = this.y + 2
-    } else if (MODE == 1) {
+    } 
+    if (MODE == 1) {
       if (level >= 6) {
         if (keyIsDown(LEFT_ARROW)) {
           this.x = this.x - 2
-        } else if (keyIsDown(RIGHT_ARROW)) {
+        } 
+        if (keyIsDown(RIGHT_ARROW)) {
           this.x = this.x + 2
         }
       }
     } else if (MODE == 2) {
       if (keyIsDown(LEFT_ARROW)) {
         this.x = this.x - 2
-      } else if (keyIsDown(RIGHT_ARROW)) {
+      } 
+      if (keyIsDown(RIGHT_ARROW)) {
         this.x = this.x + 2
       }
     }
-        if (keyIsDown(87)) {
-      this.y = this.y - 2
-    } else if (keyIsDown(83)) {
-      this.y = this.y + 2
-    } else if (MODE == 1) {
+      if (keyIsDown(87)) {
+      this.y -= 2
+    } 
+    if (keyIsDown(83)) {
+      this.y += 2
+    } 
+    if (MODE == 1) {
       if (level >= 6) {
         if (keyIsDown(65)) {
-          this.x = this.x - 2
-        } else if (keyIsDown(68)) {
-          this.x = this.x + 2
+          this.x -= 2
+        } 
+        if (keyIsDown(68)) {
+          this.x += 2
         }
       }
     } else if (MODE == 2) {
       if (keyIsDown(65)) {
         this.x = this.x - 2
-      } else if (keyIsDown(68)) {
+      } 
+      if (keyIsDown(68)) {
         this.x = this.x + 2
       }
     }
