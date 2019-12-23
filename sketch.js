@@ -8,6 +8,7 @@ let MODE;
 
 function homeScreen() {
   if (level == -1) {
+    hub.show();
     home = 1;
     textAlign(CENTER);
     textSize(width / 4);
@@ -41,6 +42,7 @@ function homeScreen() {
       text("Highscore: " + deathCount + " deaths", width / 3, height / 1.5)
     }
   } else {
+    hub.hide();
     home = 0;
   }
 }
@@ -288,6 +290,11 @@ var evul = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  hub = createImg("hub.png");
+  hub.size(50,50);
+  hub.position((width-hub.width)-10,10);
+  hub.show();
+  hub.mousePressed(hub_url);
   winner = getItem("winner")
   if (winner == null) {
     winner = 0;
@@ -345,6 +352,10 @@ function setup() {
   stage = 2;
   level = -1;
   Ball.Dead = 0;
+}
+
+function hub_url(){
+  window.location.assign("https://tjb543.github.io/hub/")
 }
 
 function play_Button() {
