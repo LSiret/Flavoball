@@ -290,6 +290,7 @@ var evul = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  FS = createImg("fullScreen.png")
   hub = createImg("Hub.png");
   hub.size(50,50);
   hub.position((width-hub.width)-10,10);
@@ -482,6 +483,8 @@ function restart_Button() {
 }
 
 function buttons() {
+  FS.position(width - 10, height - 10);
+  FS.mousePressed(fullscreen(true));
   if (MODE == -5) {
     restart.show();
     easy.show();
