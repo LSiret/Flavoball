@@ -290,7 +290,7 @@ var evul = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  hub = createImg("hub.png");
+  hub = createImg("Hub.png");
   hub.size(50,50);
   hub.position((width-hub.width)-10,10);
   hub.show();
