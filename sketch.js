@@ -60,7 +60,7 @@ function homeScreen() {
     text("Instuctions:", width / 2, height / 1.5 - 20)
     text("- Go up to proceed", width / 2, height / 1.5)
     textAlign(LEFT)
-    text("Version 1.3.2", 0, height - 0.5)
+    text("Version 1.3.2.3", 0, height - 0.5)
     textAlign(CENTER)
     textSize(width / 20)
     if (eHigh > 0) {
