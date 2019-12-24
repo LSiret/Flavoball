@@ -4,7 +4,46 @@ let stage = 2;
 let home = 1;
 let winner = 0;
 let deathCount;
-let MODE; 
+let MODE;
+
+function Star() {
+  this.x = random(-width, width);
+  this.y = random(-height, height);
+  this.z = random((height + width) / 2);
+  this.pz = this.z;
+
+  this.update = function() {
+    this.z = this.z + speed;
+    if (this.z < 1) {
+      this.z = width;
+      this.x = random(-width, width);
+      this.y = random(-height, height);
+      this.pz = this.z;
+    }
+  };
+
+  this.show = function() {
+    fill(255);
+    noStroke();
+
+    var sx = map(this.x / this.z, 0, 1, 0, width);
+    var sy = map(this.y / this.z, 0, 1, 0, height);
+
+    var r = map(this.z, 0, width, 16, 0);
+    ellipse(sx, sy, r, r);
+
+    var px = map(this.x / this.pz, 0, 1, 0, width);
+    var py = map(this.y / this.pz, 0, 1, 0, height);
+
+    this.pz = this.z;
+
+    stroke(255);
+    line(px, py, sx, sy);
+  };
+}
+
+let stars = [];
+let speed;
 
 function homeScreen() {
   if (level == -1) {
@@ -289,6 +328,7 @@ class Flavoball {
 var evul = [];
 
 function setup() {
+  load = 0;
   createCanvas(windowWidth, windowHeight);
   hub = createImg("Hub.png");
   hub.size(50,50);
@@ -333,6 +373,9 @@ function setup() {
   resumeButton.hide();
   textAlign(CENTER);
   eHigh = getItem("ehigh");
+  for (let i = 0; i < (width+height)/1.5; i++) {
+    stars[i] = new Star();
+  }
   if (eHigh === null) {
     eHigh = "0";
   }
@@ -355,7 +398,8 @@ function setup() {
 }
 
 function hub_url(){
-  window.location.assign("https://tjb543.github.io/hub/")
+  load = 1;
+  window.location.assign("https://tjb543.github.io/hub/");
 }
 
 function play_Button() {
@@ -1080,6 +1124,7 @@ function draw() {
   frameRate(120);
   Game();
   if (cheat != 1) {
+    if (load == 0) {
     BG();
     win();
     homeScreen();
@@ -1115,6 +1160,15 @@ function draw() {
       Voice();
     } else {
       homeBall.update();
+    }
+    } else {
+      speed = -50;
+      background(51);
+      translate(width / 2, height / 2);
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].update();
+        stars[i].show();
+  }
     }
   } else {
     background(50, 255, 255);
