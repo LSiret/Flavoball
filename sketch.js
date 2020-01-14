@@ -835,16 +835,18 @@ function BG() {
     }
   } else if (MODE == 1) {
     if (level == 0) {
-      background(250, 250, 250);
+      background(image("Flavoball - BG.psd"));
     } else if (level == 1) {
-      background(250, 150, 0);
+      background(image("Flavoball - BG 2.psd"));
     } else if (level == 2) {
-      background(250, 0, 0);
-    } else if (level > 3 < 13) {
-      background(175, 0, 0);
+      background(image("Flavoball - BG 3.psd"));
+    } else if (level == 3) {
+      background(image("Flavoball - BG 4.psd"));
+    } else if (level > 4 < 13) {
+      background(image("Flavoball - BG 5.psd"));
     }
   } else if (MODE == 2) {
-    background(255, 0, 0)
+    background(image("Flavoball - BG.psd"));
   } else {
     background(0, 0, 255)
   }
