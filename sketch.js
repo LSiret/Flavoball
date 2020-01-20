@@ -55,12 +55,12 @@ function homeScreen() {
     text("Flavoball", width / 2, height / 2.5);
     textAlign(CENTER)
     textSize(width / 50)
-    text("Controls:", width / 2, height - 30)
-    text("Arrow keys / WASD to move", width / 2, height)
+    text("Controls:", width / 2, height - 40)
+    text("Arrow keys / WASD to move", width / 2, height - 20)
     text("Instuctions:", width / 2, height / 1.5 - 20)
     text("- Go up to proceed", width / 2, height / 1.5)
     textAlign(LEFT)
-    text("Version 1.3.2.3", 0, height - 0.5)
+    text("Version 1.4", 0, height - 0.5)
     textAlign(CENTER)
     textSize(width / 20)
     if (eHigh > 0) {
@@ -835,18 +835,18 @@ function BG() {
     }
   } else if (MODE == 1) {
     if (level == 0) {
-      background(image("Flavoball - BG.psd"));
+      background(image("Flavoball - BG-1.png"));
     } else if (level == 1) {
-      background(image("Flavoball - BG 2.psd"));
+      background(image("Flavoball - BG-2.png"));
     } else if (level == 2) {
-      background(image("Flavoball - BG 3.psd"));
+      background(image("Flavoball - BG-3.png"));
     } else if (level == 3) {
-      background(image("Flavoball - BG 4.psd"));
+      background(image("Flavoball - BG-4.png"));
     } else if (level > 4 < 13) {
-      background(image("Flavoball - BG 5.psd"));
+      background(image("Flavoball - BG-5.png"));
     }
   } else if (MODE == 2) {
-    background(image("Flavoball - BG.psd"));
+    background(image("Flavoball - BG-1.png"));
   } else {
     background(0, 0, 255)
   }
