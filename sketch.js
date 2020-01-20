@@ -56,7 +56,7 @@ function homeScreen() {
     textAlign(CENTER)
     textSize(width / 50)
     text("Controls:", width / 2, height - 40)
-    text("Arrow keys / WASD to move", width / 2, height - 20)
+    text("Arrow keys / WASD to move", width / 2, height - 5)
     text("Instuctions:", width / 2, height / 1.5 - 20)
     text("- Go up to proceed", width / 2, height / 1.5)
     textAlign(LEFT)
